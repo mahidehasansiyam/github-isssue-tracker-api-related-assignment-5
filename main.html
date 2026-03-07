@@ -19,6 +19,7 @@
 </head>
 
 <body class="">
+ 
  <header class="flex  justify-between items-center p-4 w-[80%] mx-auto bg-white ">
   <div class="left flex items-center gap-1 cursor-pointer">
     <img class="w-[20%]" src="./assets/github-logo.png" alt="">
@@ -34,13 +35,13 @@
    <div class="main w-[80%] mx-auto">
     <p class="bg-green-100">.</p>
     <!-- top Btn  -->
-    <div class="topBtn flex gap-4  p-4 rounded-2xl bg-white mt-2">
+    <div class="topBtn flex gap-4  p-4 rounded-2xl bg-white mt-2 sticky top-1">
       <button onclick="btnClicked('allBtn')" id="allBtn"  class="allBtn btn btn-active btn-primary btns">All</button>
       <button onclick="btnClicked('openBtn')" id="openBtn" class="openBtn btn btn-active btn-primary btns">Open</button>
       <button onclick="btnClicked('closedBtn')" id="closedBtn" class="closedBtn btn btn-active btn-primary btns">Closed</button>
     </div>
     <!-- top status -->
-    <div class="topStatus flex  justify-between items-center bg-white my-4 p-4 rounded-2xl">
+    <div class="topStatus flex  justify-between items-center bg-white my-4 p-4 rounded-2xl sticky top-20">
       <div class="left flex gap-2">
         <img class="w-[50px] p-1 bg-gray-300  rounded-full" src="./assets/Aperture.png" alt="">
         <div class="text">
@@ -63,6 +64,10 @@
         </div>
       
       </div>
+    </div>
+    <!-- spinner  -->
+    <div id="spinner" class="spinner text-center hidden">
+      <span class="loading loading-infinity loading-xl "></span>
     </div>
     <!-- cards -->
     <div id="content" class="content grid grid-cols-4 gap-4  p-4 rounded-2xl bg-rose-100">
