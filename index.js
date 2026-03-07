@@ -5,8 +5,7 @@ const password = document.getElementById('password')
 const login = document.getElementById('login')
 
 
-usernameValue = username.value
-passwordValue = password.value
+
 
 login.addEventListener('click', () => {
  const usernameValue = username.value;
@@ -18,5 +17,7 @@ login.addEventListener('click', () => {
   
   console.log(usernameValue, passwordValue);
 })
+
+
 
 
