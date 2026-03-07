@@ -12,7 +12,7 @@ login.addEventListener('click', () => {
   const passwordValue = password.value;
 
   if (usernameValue === 'admin' && passwordValue === 'admin1234') {
-    alert("Successfull")
+    window.location.href = './main.html';
   }
   
   console.log(usernameValue, passwordValue);
