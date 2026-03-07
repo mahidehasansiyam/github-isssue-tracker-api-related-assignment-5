@@ -40,7 +40,7 @@ const btnClicked = btn => {
         // console.log(item);
         const div = document.createElement('div');
         div.innerHTML = `
-      <div class="  max-w-full h-90 bg-white rounded-xl  border border-gray-200 " aria-label="Issue card">
+      <div onclick="modal('${item.id}')" class="  max-w-full h-90 bg-white rounded-xl  border border-gray-200 " aria-label="Issue card">
         <!-- Top accent border -->
         <div class="h-1 w-full ${item.status === 'open' ? 'bg-green-600' : 'bg-red-600'} "></div>
       
@@ -110,7 +110,7 @@ const btnClicked = btn => {
         if (item.status === 'open') {
            const div = document.createElement('div');
            div.innerHTML = `
-      <div class="  max-w-full h-90 bg-white rounded-xl  border border-gray-200 " aria-label="Issue card">
+      <div onclick="modal('${item.id}')" class="  max-w-full h-90 bg-white rounded-xl  border border-gray-200 " aria-label="Issue card">
         <!-- Top accent border -->
         <div class="h-1 w-full ${item.status === 'open' ? 'bg-green-600' : 'bg-red-600'}"></div>
       
@@ -180,7 +180,7 @@ const btnClicked = btn => {
        if (item.status === 'closed') {
           const div = document.createElement('div');
           div.innerHTML = `
-      <div class="  max-w-full h-90 bg-white rounded-xl  border border-gray-200 " aria-label="Issue card">
+      <div onclick="modal('${item.id}')" class="max-w-full h-90 bg-white rounded-xl  border border-gray-200 " aria-label="Issue card">
         <!-- Top accent border -->
         <div class="h-1 w-full ${item.status === 'open' ? 'bg-green-600' : 'bg-red-600'}"></div>
       
@@ -251,6 +251,87 @@ const btnClicked = btn => {
   
   
 };
+
+// assignee: 'jane_smith';
+// author: 'john_doe';
+// createdAt: '2024-01-15T10:30:00Z';
+// description: "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.";
+// id: 1;
+// labels: (2)[('bug', 'help wanted')];
+// priority: 'high';
+// status: 'open';
+// title: 'Fix navigation menu on mobile devices';
+// updatedAt: '2024-01-15T10:30:00Z';
+
+const modalbox = document.getElementById('modal');
+const modal = (id) => {
+  modalbox.innerHTML = '';
+  fetch(`https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`)
+    .then(res => res.json())
+    .then(data => {
+      const item = data.data;
+      let div = document.createElement('div')
+      div.innerHTML = `
+      <div class="max-w-xl mx-auto bg-white rounded-2xl border-gray-100 overflow-hidden">
+      <div class="p-8">
+        <h1 class="text-2xl font-bold text-slate-800 mb-4">${item.title}</h1>
+    
+        <div class="flex items-center gap-3 text-sm text-slate-500 mb-6">
+          <span class="bg-emerald-500 text-white px-3 py-1 rounded-full font-medium flex items-center gap-1">
+            ${item.status}
+          </span>
+          <span class="flex items-center gap-1">
+            <span class="w-1 h-1 bg-slate-400 rounded-full"></span>
+            Opened by <span class="font-medium text-slate-700 ml-1">${item.assignee}</span>
+          </span>
+          <span class="flex items-center gap-1">
+            <span class="w-1 h-1 bg-slate-400 rounded-full"></span>
+            ${item.createdAt}
+          </span>
+        </div>
+    
+        <div class="flex gap-2 mb-8">
+          <span
+            class="bg-rose-50 text-rose-500 border border-rose-100 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1">
+            <i class="fa-solid fa-bug"></i> ${item.labels[0]}
+          </span>
+          <span
+            class="bg-amber-50 text-amber-500 border border-amber-100 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
+            <i class="fa-solid fa-life-ring"></i>
+            ${item.labels[1]}
+          </span>
+        </div>
+    
+        <p class="text-slate-600 leading-relaxed mb-10">
+          ${item.description}
+        </p>
+    
+        <div class="bg-slate-50 rounded-xl p-6 grid grid-cols-2 gap-4">
+          <div>
+            <p class="text-slate-500 text-sm mb-1">Assignee:</p>
+            <p class="font-bold text-slate-800">${item.author}</p>
+          </div>
+          <div>
+            <p class="text-slate-500 text-sm mb-1">Priority:</p>
+            <span class="bg-rose-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase">
+              ${item.priority}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+      `;
+      modalbox.appendChild(div);
+
+  })
+
+
+
+
+
+
+  document.getElementById('my_modal').showModal();
+}
 
 
 
