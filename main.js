@@ -32,15 +32,17 @@ const btnClicked = btn => {
   fetch('https://phi-lab-server.vercel.app/api/v1/lab/issues')
     .then(res => res.json())
     .then(data => showall(data.data))
-  
-  const showall = data => {
-   
-    // For all 
-    if (currentBtn === 'allBtn') {
-      data.forEach(item => {
-        // console.log(item);
-        const div = document.createElement('div');
-        div.innerHTML = `
+};
+
+const showall = data => {
+  //  console.log(data);
+
+  // For all
+  if (currentBtn === 'allBtn') {
+    data.forEach(item => {
+      // console.log(item);
+      const div = document.createElement('div');
+      div.innerHTML = `
       <div onclick="modal('${item.id}')" class="  max-w-full h-90 bg-white rounded-xl  border border-gray-200 " aria-label="Issue card">
         <!-- Top accent border -->
         <div class="h-1 w-full ${item.status === 'open' ? 'bg-green-600' : 'bg-purple-600'} "></div>
@@ -99,18 +101,20 @@ const btnClicked = btn => {
         </div>
       </div>
       `;
-        manageSpinner(false);
-        content.appendChild(div);
-        // console.log(item);
-      });
-   }
+      manageSpinner(false);
+      content.appendChild(div);
+      // console.log(item);
+    });
+    noOfIssue();
+    return;
+  }
 
-    // For statue = open
-    if (currentBtn === 'openBtn') {
-      data.forEach(item => {
-        if (item.status === 'open') {
-           const div = document.createElement('div');
-           div.innerHTML = `
+  // For statue = open
+  if (currentBtn === 'openBtn') {
+    data.forEach(item => {
+      if (item.status === 'open') {
+        const div = document.createElement('div');
+        div.innerHTML = `
       <div onclick="modal('${item.id}')" class="  max-w-full h-90 bg-white rounded-xl  border border-gray-200 " aria-label="Issue card">
         <!-- Top accent border -->
         <div class="h-1 w-full ${item.status === 'open' ? 'bg-green-600' : 'bg-purple-600'}"></div>
@@ -169,18 +173,20 @@ const btnClicked = btn => {
         </div>
       </div>
       `;
-          manageSpinner(false);
-           content.appendChild(div);
-        }
-      });
-    }
+        manageSpinner(false);
+        content.appendChild(div);
+      }
+    });
+    noOfIssue();
+    return;
+  }
 
-    // For statue = close
-   if (currentBtn === 'closedBtn') {
-     data.forEach(item => {
-       if (item.status === 'closed') {
-          const div = document.createElement('div');
-          div.innerHTML = `
+  // For statue = close
+  if (currentBtn === 'closedBtn') {
+    data.forEach(item => {
+      if (item.status === 'closed') {
+        const div = document.createElement('div');
+        div.innerHTML = `
       <div onclick="modal('${item.id}')" class="max-w-full h-90 bg-white rounded-xl  border border-gray-200 " aria-label="Issue card">
         <!-- Top accent border -->
         <div class="h-1 w-full ${item.status === 'open' ? 'bg-green-600' : 'bg-purple-600'}"></div>
@@ -239,16 +245,84 @@ const btnClicked = btn => {
         </div>
       </div>
       `;
-         manageSpinner(false);
-         content.appendChild(div);
-         
-       }
-     });
-    }
+        manageSpinner(false);
+        content.appendChild(div);
+      }
+    });
     noOfIssue();
-  };
-   
-};
+    return;
+  }
+
+  // for search value
+  if (currentBtn === '') {
+    data.forEach(item => {
+      const div = document.createElement('div');
+      div.innerHTML = `
+      <div onclick="modal('${item.id}')" class="max-w-full h-90 bg-white rounded-xl  border border-gray-200 " aria-label="Issue card">
+        <!-- Top accent border -->
+        <div class="h-1 w-full ${item.status === 'open' ? 'bg-green-600' : 'bg-purple-600'}"></div>
+      
+        <!-- Content -->
+        <div class="p-5">
+          <div class="flex items-start justify-between">
+      
+            <div class="inline-flex items-center justify-center w-8 h-8 ">
+              ${item.priority === 'low' ? '<img src="./assets/Open-Status.png" alt="">' : ' <img src="./assets/Closed-Status .png" alt="">'}
+            </div>
+      
+            <!-- Priority pill -->
+            <span class= " ${item.priority === 'high' ? 'text-red-500 bg-red-100' : item.priority === 'low' ? 'text-gray-600 bg-gray-200' : 'text-orange-400 bg-orange-200'} py-1 px-4 rounded-full text-sm font-semibold">
+              ${item.priority}
+            </span>
+          </div>
+      
+          <!-- Title -->
+          <h2 class="mt-4 text-[20px] leading-7 font-semibold text-gray-800">
+            ${item.title}
+          </h2>
+      
+          <!-- Description -->
+          <p class="line-clamp-2 mt-2 text-[14px] leading-6 text-gray-500">
+            ${item.description}
+          </p>
+      
+      
+          <div class="mt-4 flex items-center gap-1 flex-wrap">
+            <!-- BUG -->
+            <span
+              class="flex gap-1 items-center rounded-full border px-3 py-1 text-[12px] font-semibold text-rose-500 bg-rose-50 border-rose-200">
+              <i class="fa-solid fa-bug"></i>
+              <span class=""></span> ${item.labels[0]}
+            </span>
+      
+            <!-- HELP WANTED -->
+            <span
+              class="flex gap-1 items-center rounded-full border px-3 py-1 text-[12px] font-semibold text-amber-700 bg-amber-100 border-amber-200">
+              <i class="fa-solid fa-life-ring"></i>
+              <span class=""></span> ${item.labels[1]}
+            </span>
+          </div>
+        </div>
+      
+        <!-- Divider -->
+        <div class="h-px w-full bg-gray-200"></div>
+      
+        <!-- Footer -->
+        <div class="p-5">
+          <p class="text-[13px] text-gray-500">
+            <span class="text-gray-400">#1</span> by <span class="font-medium text-gray-600">${item.author}</span>
+          </p>
+          <p class="mt-3 text-[13px] text-gray-500">${item.updatedAt}</p>
+        </div>
+      </div>
+      `;
+      manageSpinner(false);
+      content.appendChild(div);
+    });
+    noOfIssue();
+    return;
+  }
+};;
 
 // assignee: 'jane_smith';
 // author: 'john_doe';
@@ -342,14 +416,22 @@ const manageSpinner = (status) => {
   }
 }
 
-// Search function 
-const search = () => {
+// Search function
+const inputField = document.getElementById('inputField');
+const searchBtn = document.getElementById('searchBtn');
+searchBtn.addEventListener('click', () => {
+  const inputValue = inputField.value;
+  currentBtn = '';
+  content.innerHTML = '';
+  
   fetch(
-    'https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=notifications')
+    `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${inputValue}`,
+  )
     .then(res => res.json())
-  .then(data=>console.log(data))
-}
-// search()
+    .then(data => showall(data.data));
+})
+
+
 
 const issue = document.getElementById('noOfIssue');
 let noOfIssue = () => {
