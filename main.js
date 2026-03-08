@@ -18,6 +18,7 @@ let currentBtn = 'allBtn';
 
 const content = document.getElementById('content');
 const btnClicked = btn => {
+ 
   manageSpinner(true);
   content.innerHTML = '';
   currentBtn = btn;
@@ -42,7 +43,7 @@ const btnClicked = btn => {
         div.innerHTML = `
       <div onclick="modal('${item.id}')" class="  max-w-full h-90 bg-white rounded-xl  border border-gray-200 " aria-label="Issue card">
         <!-- Top accent border -->
-        <div class="h-1 w-full ${item.status === 'open' ? 'bg-green-600' : 'bg-red-600'} "></div>
+        <div class="h-1 w-full ${item.status === 'open' ? 'bg-green-600' : 'bg-purple-600'} "></div>
       
         <!-- Content -->
         <div class="p-5">
@@ -112,7 +113,7 @@ const btnClicked = btn => {
            div.innerHTML = `
       <div onclick="modal('${item.id}')" class="  max-w-full h-90 bg-white rounded-xl  border border-gray-200 " aria-label="Issue card">
         <!-- Top accent border -->
-        <div class="h-1 w-full ${item.status === 'open' ? 'bg-green-600' : 'bg-red-600'}"></div>
+        <div class="h-1 w-full ${item.status === 'open' ? 'bg-green-600' : 'bg-purple-600'}"></div>
       
         <!-- Content -->
         <div class="p-5">
@@ -182,7 +183,7 @@ const btnClicked = btn => {
           div.innerHTML = `
       <div onclick="modal('${item.id}')" class="max-w-full h-90 bg-white rounded-xl  border border-gray-200 " aria-label="Issue card">
         <!-- Top accent border -->
-        <div class="h-1 w-full ${item.status === 'open' ? 'bg-green-600' : 'bg-red-600'}"></div>
+        <div class="h-1 w-full ${item.status === 'open' ? 'bg-green-600' : 'bg-purple-600'}"></div>
       
         <!-- Content -->
         <div class="p-5">
@@ -193,7 +194,7 @@ const btnClicked = btn => {
             </div>
       
             <!-- Priority pill -->
-            <span class=${item.priority === 'high' ? 'text-red-500 bg-red-100' : item.priority === 'low' ? 'text-gray-600 bg-gray-200' : 'text-orange-400 bg-orange-200'} py-1 px-4 rounded-full text-sm font-semibold">
+            <span class= " ${item.priority === 'high' ? 'text-red-500 bg-red-100' : item.priority === 'low' ? 'text-gray-600 bg-gray-200' : 'text-orange-400 bg-orange-200'} py-1 px-4 rounded-full text-sm font-semibold">
               ${item.priority}
             </span>
           </div>
@@ -239,17 +240,14 @@ const btnClicked = btn => {
       </div>
       `;
          manageSpinner(false);
-          content.appendChild(div);
+         content.appendChild(div);
+         
        }
      });
     }
-    
-   
-   
+    noOfIssue();
   };
-
-  
-  
+   
 };
 
 // assignee: 'jane_smith';
@@ -263,6 +261,8 @@ const btnClicked = btn => {
 // title: 'Fix navigation menu on mobile devices';
 // updatedAt: '2024-01-15T10:30:00Z';
 
+
+// Modal Box 
 const modalbox = document.getElementById('modal');
 const modal = (id) => {
   modalbox.innerHTML = '';
@@ -277,7 +277,7 @@ const modal = (id) => {
         <h1 class="text-2xl font-bold text-slate-800 mb-4">${item.title}</h1>
     
         <div class="flex items-center gap-3 text-sm text-slate-500 mb-6">
-          <span class="bg-emerald-500 text-white px-3 py-1 rounded-full font-medium flex items-center gap-1">
+          <span class="${item.status === 'open' ? 'bg-green-600 text-white' : 'bg-purple-600 text-white'} px-3 py-1 rounded-full font-medium flex items-center gap-1">
             ${item.status}
           </span>
           <span class="flex items-center gap-1">
@@ -313,7 +313,7 @@ const modal = (id) => {
           </div>
           <div>
             <p class="text-slate-500 text-sm mb-1">Priority:</p>
-            <span class="bg-rose-500 text-white px-4 py-1 rounded-full text-xs font-bold uppercase">
+            <span class="${item.priority === 'high' ? 'text-red-500 bg-red-100' : item.priority === 'low' ? 'text-gray-600 bg-gray-200' : 'text-orange-400 bg-orange-200'} px-4 py-1 rounded-full text-xs font-bold uppercase">
               ${item.priority}
             </span>
           </div>
@@ -325,16 +325,11 @@ const modal = (id) => {
 
   })
 
-
-
-
-
-
   document.getElementById('my_modal').showModal();
 }
 
 
-
+// Spinner 
 const spinner = document.getElementById('spinner')
 const manageSpinner = (status) => {
   if (status == true) {
@@ -345,6 +340,21 @@ const manageSpinner = (status) => {
     content.classList.remove('hidden');
     spinner.classList.add('hidden');
   }
+}
+
+// Search function 
+const search = () => {
+  fetch(
+    'https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=notifications')
+    .then(res => res.json())
+  .then(data=>console.log(data))
+}
+// search()
+
+const issue = document.getElementById('noOfIssue');
+let noOfIssue = () => {
+  issue.innerText = content.children.length;
+  
 }
 
 

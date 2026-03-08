@@ -11,7 +11,7 @@ login.addEventListener('click', () => {
  const usernameValue = username.value;
   const passwordValue = password.value;
 
-  if (usernameValue === 'admin' && passwordValue === 'admin1234') {
+  if (usernameValue === 'admin' && passwordValue === 'admin123') {
     window.location.href = './main.html';
   }
   
